@@ -150,8 +150,6 @@ header {
   display: none !important;
 }
 
-<<<<<<< HEAD
-=======
 /* Modal Styles */
 .modal-overlay {
   position: fixed;
@@ -219,7 +217,6 @@ header {
   font-size: 16px;
 }
 
->>>>>>> e3a695e (update file untuk vercel)
 /* Main Content Area */
 main {
   padding: 32px 16px;
