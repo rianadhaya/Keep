@@ -48,6 +48,9 @@ class KeepApp {
     this.colorOptions = ['default', 'red', 'orange', 'yellow', 'green', 'teal', 'blue', 'darkblue', 'purple', 'pink', 'brown', 'gray'];
 
     this.init();
+    
+    // Auto-save detection
+    this.lastSavedContent = "";
   }
 
   init() {
@@ -190,11 +193,19 @@ class KeepApp {
         createdAt: new Date()
       };
       
-      try {
-        await addDoc(collection(db, "notes"), newNote);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
+    this.btnSave.disabled = true;
+    this.btnSave.textContent = "Menyimpan...";
+    
+    try {
+      await addDoc(collection(db, "notes"), newNote);
+      this.collapseInput(); 
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      alert("Gagal menyimpan catatan: " + e.message + "\n\nPastikan Anda sudah mengatur Firestore Rules ke 'allow read, write: if true;' di Firebase Console.");
+    } finally {
+      this.btnSave.disabled = false;
+      this.btnSave.textContent = "Tutup";
+    }
     }
   }
 
@@ -210,6 +221,9 @@ class KeepApp {
       this.renderNotes();
     }, (err) => {
       console.error("Fetch Error:", err);
+      if (err.code === 'permission-denied') {
+        alert("Akses Firestore ditolak. Hubungi admin atau periksa Firebase Rules.");
+      }
     });
   }
 

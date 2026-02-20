@@ -1,19 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap");
 
 :root {
-  --bg-color: #ffffff;
+  --bg-color: #f1f3f4;
   --header-bg: #ffffff;
   --border-color: #e0e0e0;
-  --hover-bg: #f1f3f4;
+  --hover-bg: #f5f5f5;
   --text-primary: #202124;
   --text-secondary: #5f6368;
-  --shadow-sm:
-    0 1px 2px 0 rgba(60, 64, 67, 0.302), 0 1px 3px 1px rgba(60, 64, 67, 0.149);
-  --shadow-md:
-    0 1px 2px 0 rgba(60, 64, 67, 0.302), 0 2px 6px 2px rgba(60, 64, 67, 0.149);
-  --accent-color: #fbbc04; /* Keep Yellow */
-
-  /* Note Colors */
+  --shadow-sm: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+  --shadow-hover: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
+  --shadow-modal: 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.2);
+  --accent-color: #fbbc04;
+  --accent-light: #fef7e0;
+  
+  /* Note Colors with slightly more pastel palette */
   --note-default: #ffffff;
   --note-red: #f28b82;
   --note-orange: #fbbc04;
@@ -27,17 +27,8 @@
   --note-brown: #e6c9a8;
   --note-gray: #e8eaed;
 
-  font-family:
-    "Outfit",
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
+  font-family: 'Outfit', sans-serif;
   line-height: 1.5;
-  font-weight: 400;
   color: var(--text-primary);
   background-color: var(--bg-color);
 }
@@ -59,11 +50,16 @@ header {
   padding: 8px 16px;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--border-color);
+  /* border-bottom: 1px solid var(--border-color); */
   position: sticky;
   top: 0;
   background: var(--header-bg);
   z-index: 100;
+  transition: box-shadow 0.3s ease;
+}
+
+header:has(+ main .note-input-container.expanded) {
+  box-shadow: none;
 }
 
 .header-left {
@@ -102,7 +98,7 @@ header {
 
 .search-bar:focus {
   background: #fff;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 1px 1px 0 rgba(65,69,73,0.3), 0 1px 3px 1px rgba(65,69,73,0.15);
 }
 
 .search-icon {
@@ -122,28 +118,37 @@ header {
 .user-info {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  padding: 4px 8px;
+  border-radius: 24px;
+  transition: background 0.2s;
+}
+
+.user-info:hover {
+  background: var(--hover-bg);
 }
 
 .user-info img {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-}
-
-.user-info span {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-secondary);
+  border: 2px solid var(--accent-color);
 }
 
 .btn-primary {
-  padding: 8px 16px;
+  padding: 10px 24px;
   background: var(--accent-color);
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  color: #3c4043;
+}
+
+.btn-primary:hover {
+  background: #f7a000;
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
 }
 
 .hidden {
@@ -231,17 +236,21 @@ main {
   max-width: 600px;
   background: #fff;
   border-radius: 8px;
-  box-shadow:
-    0 1px 2px 0 rgba(60, 64, 67, 0.3),
-    0 2px 6px 2px rgba(60, 64, 67, 0.15);
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
   margin-bottom: 48px;
   padding: 12px 16px;
   cursor: text;
-  transition: box-shadow 0.2s, background-color 0.2s;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+}
+
+.note-input-container:hover {
+  box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
 }
 
 .note-input-container.expanded {
   padding: 0;
+  box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
 }
 
 .note-input-placeholder {
@@ -306,13 +315,14 @@ main {
   border: none;
   border-radius: 4px;
   background: transparent;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
+  color: var(--text-primary);
 }
 
 .btn-close:hover {
-  background: rgba(0,0,0,0.05);
+  background: rgba(0,0,0,0.08);
 }
 
 /* Notes Grid */
@@ -328,16 +338,19 @@ main {
   background: #fff;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 12px 16px 12px 12px;
+  padding: 12px 16px;
   min-height: 100px;
   position: relative;
-  transition:
-    box-shadow 0.2s,
-    border-color 0.2s;
+  transition: all 0.2s ease;
   display: inline-block;
   width: 100%;
   margin-bottom: 16px;
   break-inside: avoid;
+}
+
+.note-card:hover {
+  box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+  border-color: transparent;
 }
 
 .pin-btn {
@@ -369,8 +382,7 @@ main {
 }
 
 .note-card:hover {
-  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-  border-color: transparent;
+  box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
 }
 
 .note-card-title {
@@ -401,16 +413,22 @@ main {
 .color-palette {
   display: none;
   position: absolute;
-  bottom: 100%;
+  top: 100%;
   left: 0;
   background: #fff;
-  box-shadow: var(--shadow-md);
-  padding: 8px;
+  box-shadow: var(--shadow-modal);
+  padding: 12px;
   border-radius: 8px;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  z-index: 10;
-  width: 140px;
+  gap: 10px;
+  z-index: 100;
+  width: 160px;
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .color-picker-trigger:hover .color-palette {
@@ -477,5 +495,8 @@ main {
   }
   .logo-text {
     display: none;
+  }
+  .note-input-container {
+    margin-bottom: 24px;
   }
 }
