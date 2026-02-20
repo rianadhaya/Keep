@@ -150,6 +150,76 @@ header {
   display: none !important;
 }
 
+<<<<<<< HEAD
+=======
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: #fff;
+  padding: 32px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow-md);
+}
+
+.modal-content h2 {
+  margin-bottom: 24px;
+  font-size: 24px;
+  color: var(--text-primary);
+}
+
+.input-group {
+  margin-bottom: 16px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 16px;
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: var(--accent-color);
+}
+
+.modal-actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-actions .btn-primary {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+}
+
+>>>>>>> e3a695e (update file untuk vercel)
 /* Main Content Area */
 main {
   padding: 32px 16px;

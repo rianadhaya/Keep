@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { db, auth, googleProvider } from './firebase-config';
 import { 
   signInWithPopup, 
@@ -8,6 +9,12 @@ import {
   collection, 
   addDoc, 
   getDocs, 
+=======
+import { db } from './firebase-config';
+import { 
+  collection, 
+  addDoc, 
+>>>>>>> e3a695e (update file untuk vercel)
   deleteDoc, 
   doc, 
   updateDoc, 
@@ -20,10 +27,23 @@ import {
 class KeepApp {
   constructor() {
     this.notes = [];
+<<<<<<< HEAD
     this.user = null;
     this.isExpanded = false;
     this.selectedColor = 'var(--note-default)';
 
+=======
+    this.user = JSON.parse(localStorage.getItem('keep-user')) || null;
+    this.isExpanded = false;
+    this.selectedColor = 'var(--note-default)';
+
+    // Hardcoded credentials
+    this.CREDENTIALS = {
+      username: 'Selai',
+      password: 'Kacang'
+    };
+
+>>>>>>> e3a695e (update file untuk vercel)
     // DOM Elements
     this.noteInputContainer = document.getElementById("note-input-container");
     this.noteTitle = document.getElementById("note-title");
@@ -32,12 +52,25 @@ class KeepApp {
     this.notesContainer = document.getElementById("notes-container");
     this.searchInput = document.getElementById("search-input");
     
+<<<<<<< HEAD
+=======
+    // Auth Elements
+>>>>>>> e3a695e (update file untuk vercel)
     this.btnLogin = document.getElementById("btn-login");
     this.btnLogout = document.getElementById("btn-logout");
     this.userInfo = document.getElementById("user-info");
     this.userPhoto = document.getElementById("user-photo");
     this.userName = document.getElementById("user-name");
 
+<<<<<<< HEAD
+=======
+    // Login Modal Elements
+    this.loginModal = document.getElementById("login-modal");
+    this.usernameInput = document.getElementById("username");
+    this.passwordInput = document.getElementById("password");
+    this.btnSubmitLogin = document.getElementById("btn-submit-login");
+
+>>>>>>> e3a695e (update file untuk vercel)
     this.colorOptions = ['default', 'red', 'orange', 'yellow', 'green', 'teal', 'blue', 'darkblue', 'purple', 'pink', 'brown', 'gray'];
 
     this.init();
@@ -45,6 +78,7 @@ class KeepApp {
 
   init() {
     this.addEventListeners();
+<<<<<<< HEAD
     this.monitorAuthState();
   }
 
@@ -61,13 +95,31 @@ class KeepApp {
         this.renderNotes();
       }
     });
+=======
+    this.checkAuth();
+  }
+
+  checkAuth() {
+    if (this.user) {
+      this.showLoggedInUI();
+      this.fetchNotes();
+    } else {
+      this.showLoggedOutUI();
+    }
+>>>>>>> e3a695e (update file untuk vercel)
   }
 
   showLoggedInUI() {
     this.btnLogin.classList.add('hidden');
     this.userInfo.classList.remove('hidden');
+<<<<<<< HEAD
     this.userPhoto.src = this.user.photoURL;
     this.userName.textContent = this.user.displayName;
+=======
+    this.userPhoto.src = `https://ui-avatars.com/api/?name=${this.user.displayName}&background=fbbc04&color=fff`;
+    this.userName.textContent = this.user.displayName;
+    this.loginModal.classList.add('hidden');
+>>>>>>> e3a695e (update file untuk vercel)
   }
 
   showLoggedOutUI() {
@@ -76,12 +128,36 @@ class KeepApp {
   }
 
   addEventListeners() {
+<<<<<<< HEAD
     this.btnLogin.addEventListener('click', () => {
       signInWithPopup(auth, googleProvider).catch(err => console.error("Login Error:", err));
     });
 
     this.btnLogout.addEventListener('click', () => {
       signOut(auth);
+=======
+    // Show login modal
+    this.btnLogin.addEventListener('click', () => {
+      this.loginModal.classList.remove('hidden');
+      this.usernameInput.focus();
+    });
+
+    // Submit login
+    this.btnSubmitLogin.addEventListener('click', () => {
+      this.handleLogin();
+    });
+
+    // Close modal on outside click
+    this.loginModal.addEventListener('click', (e) => {
+      if (e.target === this.loginModal) {
+        this.loginModal.classList.add('hidden');
+      }
+    });
+
+    // Logout
+    this.btnLogout.addEventListener('click', () => {
+      this.handleLogout();
+>>>>>>> e3a695e (update file untuk vercel)
     });
 
     this.noteInputContainer.addEventListener("click", (e) => {
@@ -111,9 +187,42 @@ class KeepApp {
     });
   }
 
+<<<<<<< HEAD
   expandInput() {
     if (!this.user) {
       alert("Silakan login untuk membuat catatan.");
+=======
+  handleLogin() {
+    const usn = this.usernameInput.value.trim();
+    const pwd = this.passwordInput.value.trim();
+
+    if (usn === this.CREDENTIALS.username && pwd === this.CREDENTIALS.password) {
+      this.user = { 
+        uid: 'user-selai-sync-id', // Static ID for multi-device sync
+        displayName: 'Selai' 
+      };
+      localStorage.setItem('keep-user', JSON.stringify(this.user));
+      this.showLoggedInUI();
+      this.fetchNotes();
+      this.usernameInput.value = '';
+      this.passwordInput.value = '';
+    } else {
+      alert("Username atau Password salah!");
+    }
+  }
+
+  handleLogout() {
+    this.user = null;
+    localStorage.removeItem('keep-user');
+    this.showLoggedOutUI();
+    this.notes = [];
+    this.renderNotes();
+  }
+
+  expandInput() {
+    if (!this.user) {
+      this.loginModal.classList.remove('hidden');
+>>>>>>> e3a695e (update file untuk vercel)
       return;
     }
     this.isExpanded = true;
@@ -166,7 +275,10 @@ class KeepApp {
       this.renderNotes();
     }, (err) => {
       console.error("Fetch Error:", err);
+<<<<<<< HEAD
       // If index is missing, firebase will provide a link to create it in the console
+=======
+>>>>>>> e3a695e (update file untuk vercel)
     });
   }
 
@@ -216,7 +328,10 @@ class KeepApp {
         note.content.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
+<<<<<<< HEAD
     // Sort: Pinned first
+=======
+>>>>>>> e3a695e (update file untuk vercel)
     filteredNotes.sort((a, b) => (b.isPinned ? 1 : 0) - (a.isPinned ? 1 : 0));
 
     if (filteredNotes.length === 0) {
